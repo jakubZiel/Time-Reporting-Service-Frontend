@@ -7,9 +7,10 @@ import APIRoot from "../API"
 import Context from "../Identity/Context"
 import { BigSpinner } from "../Utils"
 import '../../index.css'
+import moment from "moment"
 
 export const Activities = () => {
-    const [date, setDate] = useState(new Date())
+    const [date, setDate] = useState(moment())
     const {context, setContext} = useContext(Context)
     
     const {get, post, response, loading, error} = useFetch(APIRoot + "/Activity")
@@ -27,15 +28,12 @@ export const Activities = () => {
 
     const changeDay = (direction) => {
         if (direction > 0){
-            const nxt = new Date()
-            nxt.setDate(date.getDate() + 1)
-            if (nxt.getTime() <= new Date().getTime())
+            const nxt = moment(date).add(1, 'days')
+            if (nxt <= moment())
                 setDate(nxt)
             return
         }
-
-        const prv = new Date()
-        prv.setDate(date.getDate() - 1)
+        const prv = moment(date).add(-1, 'days')
         setDate(prv)
     }
     if (response.data == undefined)
@@ -43,11 +41,11 @@ export const Activities = () => {
     else
         return <div>
             <h1>Activities</h1> 
-            <h2>{date.toLocaleDateString()}</h2>
+            <h2>{date.toDate().toLocaleDateString()}</h2>
             
             <Button style={{margin : "0.5rem"}} onClick={() => changeDay(-1, date)}>Previous</Button>
             <Button style={{margin : "0.5rem"}} onClick={() => changeDay(1, date)}>Next</Button>
-            <Button style={{margin : "0.5rem"}} onClick={() => setDate(new Date())}>Today</Button>
+            <Button style={{margin : "0.5rem"}} onClick={() => setDate(moment())}>Today</Button>
             <ActivityList activities={response.data}/>
         </div>
 }

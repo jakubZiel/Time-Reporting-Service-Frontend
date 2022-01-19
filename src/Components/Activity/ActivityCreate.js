@@ -30,13 +30,13 @@ export const ActivityCreate = () => {
         if  (description.current.value != '')
             edited.description = description.current.value
         if (category.current.value != '')
-            edited.tag = category.current.values 
+            edited.tag = category.current.value 
         if (duration.current.value != '')
-            edited.durationMinutes = duration.current.values
+            edited.durationMinutes = duration.current.value
         
         edited.projectId = projectId
         edited.employeeId = context.id
-
+        
         duration.current.values = ''
         category.current.value = ''
         description.current.value = ''

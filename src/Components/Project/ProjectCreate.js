@@ -14,7 +14,7 @@ export const ProjectCreate = () => {
     const category = useRef(null)    
     const {context, setContext} = useContext(Context)
     const [activity, setActivity] = useState({})
-    const {post, response} = useFetch(APIRoot + "/Activity")
+    const {post, response} = useFetch(APIRoot + "/Project")
     const navigate = useNavigate()
 
     const postCreate = async () => {
@@ -25,9 +25,9 @@ export const ProjectCreate = () => {
         if  (description.current.value != '')
             edited.description = description.current.value
         if (category.current.value != '')
-            edited.tag = category.current.values 
+            edited.tag = category.current.value
         if (duration.current.value != '')
-            edited.durationMinutes = duration.current.values
+            edited.timeBudget = duration.current.value
         
         edited.projectId = projectId
         edited.employeeId = context.id
@@ -37,7 +37,7 @@ export const ProjectCreate = () => {
         description.current.value = ''
         name.current.value = ''
                     
-        await post("", edited)
+        response = await post("", edited)
         navigate(-1)
     }
 

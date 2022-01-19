@@ -6,9 +6,7 @@ import {Card, Container, Button, Row, Col, Table, Form, FormControl, Spinner, Bu
 import { Link, useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { BigSpinner } from "../Utils"
-import { Dropdown } from "bootstrap"
-import DropdownMenu from "react-bootstrap/esm/DropdownMenu"
-import DropdownItem from "react-bootstrap/esm/DropdownItem"
+import moment from "moment"
 
 export const Reports = () => {
     return <div>
@@ -22,28 +20,28 @@ export const Reports = () => {
 
 export const AffectedProjects = () => {
     
-    const [date, setDate] = useState(new Date())
+    const [date, setDate] = useState(moment())
     const {context} = useContext(Context)
 
     const {loading, data, error} = useFetch(APIRoot + `/Report?employeeId=${context.id}&reportMonth=${date.toISOString()}`, {}, [date])
 
     const changeMonth = (direction) => {
         if (direction > 0){
-            const nxt = new Date()
-            nxt.setMonth(date.getMonth() + 1)
-            if (nxt.getTime() <= new Date().getTime())
+            const nxt = moment(date).add(1, 'months')
+            const nxtCheck = nxt.toDate()
+            const today = new Date()
+            if (nxtCheck.getMonth() <= today.getMonth() || nxtCheck.getFullYear() < today.getFullYear())
                 setDate(nxt)
             return
         }
 
-        const prv = new Date()
-        prv.setMonth(date.getMonth() - 1)
+        const prv = moment(date).add(-1, 'months')
         setDate(prv)
     }
 
     if (!loading)
         return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
-            {date.toLocaleString("eng", {month:'long'})} - {date.getFullYear()}
+            {date.toDate().toLocaleString("eng", {month:'long'})} - {date.toDate().getFullYear()}
             <ButtonGroup>
                 <Button  style={{margin : "0.5rem"}} onClick={() => changeMonth(-1)}variant='success'>Previous</Button>
                 <Button  style={{margin : "0.5rem"}} onClick={() => changeMonth(1)} variant='success'>Next</Button>
@@ -80,7 +78,9 @@ export const AffectedProject = ({props}) => {
             <td>{project.active ? "true" : "false"}</td>
             <td>{contribution}</td>
             <td>
-                <Button style={{width: "12rem"}}>Inspect</Button>
+                <Link to={`/reports/project/contribution/${project.id}/${month.toISOString()}`}>
+                    <Button style={{width: "12rem"}}>Inspect</Button>
+                </Link>
             </td>
     </tr>
 }
@@ -294,6 +294,44 @@ const Report = ({report}) => {
 
     </tr>
 }
+
+export const EmployeeProjectSummary = () => {
+
+    const {projectId, month} = useParams()
+    const {context} = useContext(Context)
+    console.log(new Date().toISOString())
+    console.log(month)
+    const {data, loading, error} = useFetch(APIRoot + `/Report/month_activities_project?employeeId=${context.id}&month=${month}&projectId=${projectId}`, {}, [])
+        
+    if (data != undefined)
+        return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
+            <Table striped hover bordered>
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Description</td>
+                        <td>Duration</td>
+                        <td>Accepted Duration</td>
+                        <td>Difference</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map(act => 
+                        <tr key={act.id}>
+                            <td>{act.name}</td>
+                            <td>{act.description}</td>
+                            <td>{act.durationMinutes}</td>
+                            <td>{act.acceptedTime}</td>
+                            <td style={{color : act.acceptedTime ? (act.acceptedTime >= act.durationMinutes ? "green" : "red") : "white" }}>{act.acceptedTime ? act.acceptedTime - act.durationMinutes:  "none"}</td>
+                        </tr>
+                    )}
+                </tbody>
+            </Table>
+        </Container>
+    else 
+        return <BigSpinner/>
+}
+
 
 export const ReportInspect = () => {
     const {id} = useParams()

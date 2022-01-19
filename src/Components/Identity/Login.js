@@ -16,12 +16,17 @@ export const Login = () => {
     const navigate = useNavigate()
 
     const loginAttempt = async(userId, password) => {
-        const response = await axios.get(APIRoot + `/Identity/login?id=${userId}&password=${password}`)
-        if (response.status == 200){
+        try{
+            const response = await axios.get(APIRoot + `/Identity/login?id=${userId}&password=${password}`)
+            if (response.status == 200){
+                setLogIn(false)
+                setContext(user)
+                navigate('/activities')
+            }
+        }catch(error){
             setLogIn(false)
-            setContext(user)
-            navigate('/activities')
         }
+
     }
 
     if (logIn)
@@ -47,7 +52,7 @@ export const Login = () => {
 
 const EmployeeList = ({setUser}) => {
     const options = {}
-    const {loading, error, data = []} = useFetch("https://localhost:5001/Identity", options, [])
+    const {loading, error, data = []} = useFetch(APIRoot + "/Identity", options, [])
 
     if (loading)
         return <div>

@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import {Activities} from './Components/Activity/Activities'
 import {Projects} from './Components/Project/Projects'
-import {AffectedProjects, FreezeMonth, OwnedProjects, ProjectSummary, ReportInspect, Reports} from './Components/Report/Reports'
+import {AffectedProjects, FreezeMonth, OwnedProjects, ProjectSummary, ReportInspect, Reports, EmployeeProjectSummary} from './Components/Report/Reports'
 import {Logout} from './Components/Identity/Logout'
 import Context from './Components/Identity/Context'
 import { useState } from 'react'
@@ -39,6 +39,7 @@ function App() {
             <Route path="/activities" element={<Activities/>}/>
             <Route path="/reports/owned" element={<OwnedProjects/>}/>
             <Route path="/reports/contribution/:projectId" element={<ProjectSummary/>}/>
+            <Route path="/reports/project/contribution/:projectId/:month" element={<EmployeeProjectSummary/>}/>
             <Route path="/reports/freeze" element={<FreezeMonth/>}/>
             <Route path="/reports/inspect/:id" element={<ReportInspect/>}/>
             <Route path="/reports" element={<Reports/>}/>

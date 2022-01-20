@@ -2,11 +2,11 @@ import { useFetch } from 'use-http'
 import APIRoot from '../API'
 import { Card, Button, Form, FormGroup, FormLabel, FormControl, ButtonGroup, Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {useContext} from 'react'
 import Context from '../Identity/Context'
 import { BigSpinner } from '../Utils'
-
+import axios from 'axios'
 
 export const Projects = () => {
 
@@ -18,7 +18,7 @@ export const Projects = () => {
     }, [data])
     
    
-   if (loading)
+    if (loading)
         return <BigSpinner/>
     else 
         return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
@@ -35,7 +35,7 @@ const Project = ({project}) => {
     const {id, ownerID, name, timeBudget, active, description} = project
     const context = useContext(Context)
 
-    return <Card style={{width: "35rem", margin: "1rem"}}>
+    return <Card style={{width: "35rem", margin: "1rem", padding: "1rem"}}>
                 <Form style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
             <FormGroup>
                 <FormLabel >Name</FormLabel>
@@ -63,4 +63,31 @@ const Project = ({project}) => {
             </Link>
         </ButtonGroup>
     </Card>
+}
+
+export const Projects2 = () => {
+        
+    const [loading, setLoading] = useState(true)
+    const {context, setContext} = useContext(Context)
+
+    useEffect(async () => {   
+        const response = await axios.get(APIRoot + "/Project")
+        console.log(response.data)
+        setContext({...context, projects : response.data})
+        setLoading(false)
+    }, [])
+
+    console.log(context.projects)
+
+
+    if (loading)
+        return <BigSpinner/>
+    else 
+        return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
+        <h1>Projects</h1> 
+            {context.projects.map(project => <Project key={project.id} project={project}/>)}
+        <Link to={"/projects/create"}>
+            <Button variant='success'>New Project</Button>
+        </Link>
+    </Container>
 }

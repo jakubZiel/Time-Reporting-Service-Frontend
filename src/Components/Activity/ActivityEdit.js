@@ -1,4 +1,4 @@
-import {Form, Button, Container, Dropdown} from 'react-bootstrap'
+import {Form, Button, Container, Dropdown, Card} from 'react-bootstrap'
 import {useFetch} from 'use-http'
 import APIRoot from '../API'
 import {useParams, useNavigate} from 'react-router-dom'
@@ -44,37 +44,39 @@ export const ActivityEdit = () => {
     const tags = context.projects.find(proj => proj.id == activity.projectID).tags.map(tag => tag.name)
 
 
-    return <Container>
-        <Form>
-            <Form.Group controlId='name'>
-                <Form.Label>Name</Form.Label>
-                <Form.Control placeholder={activity.name} ref={name}/>
-                <Form.Text></Form.Text>
-            </Form.Group>
-            <Form.Group controlId='desc'>
-                <Form.Label>Description</Form.Label>
-                <Form.Control placeholder={activity.description} ref={description}/>
-                <Form.Text></Form.Text>
-            </Form.Group>
-            <Form.Group controlId='duration'>
-                <Form.Label>Duration</Form.Label>
-                <Form.Control type="number" placeholder={activity.durationMinutes} ref={duration}/>
-                <Form.Text></Form.Text>
-            </Form.Group>
-            <Form.Group controlId='category'>
-                <Form.Label>Category</Form.Label>
-                <Form.Control disabled placeholder={activity.tag} ref={category}/>
-                <Form.Text></Form.Text>
-            </Form.Group>
-            <Dropdown>
-                <DropdownToggle variant="info" id="dropdown-basic">
-                    Choose Category
-                </DropdownToggle>
-                <DropdownMenu>
-                    {tags.map((tag, index) => <DropdownItem key={index} onClick={() => category.current.value = tag}>{tag}</DropdownItem>)}
-                </DropdownMenu>
-            </Dropdown>
-        </Form>
-        <Button onClick={() => postEdit()} variant='success'>Edit</Button>
+    return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
+        <Card style={{width: "35rem", margin: "1rem", padding: "1rem"}}>
+            <Form>
+                <Form.Group controlId='name'>
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control placeholder={activity.name} ref={name}/>
+                    <Form.Text></Form.Text>
+                </Form.Group>
+                <Form.Group controlId='desc'>
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control as="textarea" placeholder={activity.description} ref={description}/>
+                    <Form.Text></Form.Text>
+                </Form.Group>
+                <Form.Group controlId='duration'>
+                    <Form.Label>Duration</Form.Label>
+                    <Form.Control type="number" placeholder={activity.durationMinutes} ref={duration}/>
+                    <Form.Text></Form.Text>
+                </Form.Group>
+                <Form.Group controlId='category'>
+                    <Form.Label>Category</Form.Label>
+                    <Form.Control disabled placeholder={activity.tag} ref={category}/>
+                    <Form.Text></Form.Text>
+                </Form.Group>
+                <Dropdown>
+                    <DropdownToggle variant="info" id="dropdown-basic">
+                        Choose Category
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        {tags.map((tag, index) => <DropdownItem key={index} onClick={() => category.current.value = tag}>{tag}</DropdownItem>)}
+                    </DropdownMenu>
+                </Dropdown>
+            </Form>
+            <Button onClick={() => postEdit()} variant='success'>Edit</Button>
+        </Card>
     </Container>
 }

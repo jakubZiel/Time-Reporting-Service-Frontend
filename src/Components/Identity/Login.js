@@ -10,7 +10,7 @@ import { BigSpinner } from "../Utils";
 
 export const Login = () => {
     const [user, setUser] = useState(null)
-    const {setContext} = useContext(Context)
+    const {context, setContext} = useContext(Context)
     const [logIn, setLogIn] = useState(false)
     const passwordForm = useRef()
     const navigate = useNavigate()
@@ -19,8 +19,9 @@ export const Login = () => {
         try{
             const response = await axios.get(APIRoot + `/Identity/login?id=${userId}&password=${password}`)
             if (response.status == 200){
+                const proj = await axios.get(APIRoot + "/Project")
+                setContext({...user, projects : proj.data})
                 setLogIn(false)
-                setContext(user)
                 navigate('/activities')
             }
         }catch(error){

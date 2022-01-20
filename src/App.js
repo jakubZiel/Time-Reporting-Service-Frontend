@@ -4,7 +4,7 @@ import {Login} from './Components/Identity/Login.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import {Activities} from './Components/Activity/Activities'
-import {Projects} from './Components/Project/Projects'
+import {Projects2} from './Components/Project/Projects'
 import {AffectedProjects, FreezeMonth, OwnedProjects, ProjectSummary, ReportInspect, Reports, EmployeeProjectSummary} from './Components/Report/Reports'
 import {Logout} from './Components/Identity/Logout'
 import Context from './Components/Identity/Context'
@@ -32,7 +32,7 @@ function App() {
             <Route path="/projects/inspect/:id" element={<ProjectInspect/>}/>
             <Route path="/projects/edit/:id" element={<ProjectEdit/>}/>
             <Route path="/projects/create" element={<ProjectCreate/>}/>
-            <Route path="/projects" element={<Projects/>}/>
+            <Route path="/projects" element={<Projects2/>}/>
             <Route path="/activities/edit/:id" element={<ActivityEdit/>}/>
             <Route path="/activities/delete/:id" element={<ActivityDelete/>}/>
             <Route path="/activities/create/:projectId" element={<ActivityCreate/>}/>

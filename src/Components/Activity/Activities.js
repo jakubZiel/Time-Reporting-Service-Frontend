@@ -59,7 +59,7 @@ const ActivityList = ({activities}) => {
 const Activity = ({activity}) => {
     const {id, name, description, durationMinutes, frozen, tag} = activity
 
-    return <Card style={{width: "35rem", margin: "1rem"}}>
+    return <Card style={{width: "35rem", margin: "1rem", padding: "1rem"}}>
         <Form style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
             <FormGroup>
                 <FormLabel >Name</FormLabel>
@@ -67,7 +67,7 @@ const Activity = ({activity}) => {
             </FormGroup>
             <FormGroup>
                 <FormLabel >Description</FormLabel>
-                <FormControl value={description} disabled></FormControl>
+                <FormControl as="textarea" value={description} disabled></FormControl>
             </FormGroup>
             <FormGroup>
                 <FormLabel >Time</FormLabel>

@@ -1,5 +1,5 @@
 {
-  "homepage": "https://localhost:5001/staticfile/build",
+  "homepage": "https://localhost:5001/app",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,

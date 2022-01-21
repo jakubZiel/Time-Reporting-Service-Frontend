@@ -56,7 +56,7 @@ export const ActivityCreate = () => {
             <Card style={{width: "35rem", margin: "1rem", padding: "1rem"}}>
                 <Form>
                     <Form.Group controlId='name'>
-                        <Form.Label>kurwa</Form.Label>
+                        <Form.Label>Names</Form.Label>
                         <Form.Control ref={name}/>
                         <Form.Text></Form.Text>
                     </Form.Group>

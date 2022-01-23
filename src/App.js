@@ -11,7 +11,7 @@ import Context from './Components/Identity/Context'
 import { useState } from 'react'
 import { ActivityEdit } from './Components/Activity/ActivityEdit'
 import { ActivityDelete } from './Components/Activity/ActivityDelete'
-import { ActivityCreate } from './Components/Activity/ActivityCreate'
+import { ActivityCreate1 } from './Components/Activity/ActivityCreate'
 import { ProjectEdit } from './Components/Project/ProjectsEdit'
 import { ProjectCreate} from './Components/Project/ProjectCreate'
 import { ProjectInspect } from './Components/Project/ProjectInspect';
@@ -35,7 +35,7 @@ function App() {
             <Route path="/projects" element={<Projects2/>}/>
             <Route path="/activities/edit/:id" element={<ActivityEdit/>}/>
             <Route path="/activities/delete/:id" element={<ActivityDelete/>}/>
-            <Route path="/activities/create/:projectId" element={<ActivityCreate/>}/>
+            <Route path="/activities/create/:projectId" element={<ActivityCreate1/>}/>
             <Route path="/activities" element={<Activities/>}/>
             <Route path="/reports/owned" element={<OwnedProjects/>}/>
             <Route path="/reports/contribution/:projectId" element={<ProjectSummary/>}/>

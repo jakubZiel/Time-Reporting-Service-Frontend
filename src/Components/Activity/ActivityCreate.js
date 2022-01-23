@@ -9,7 +9,7 @@ import DropdownMenu from 'react-bootstrap/esm/DropdownMenu'
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle'
 import DropdownItem from 'react-bootstrap/esm/DropdownItem'
 
-export const ActivityCreate = () => {
+export const ActivityCreate1 = () => {
 
     const {projectId} = useParams()
     const name = useRef(null)    

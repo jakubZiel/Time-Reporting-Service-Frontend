@@ -84,10 +84,13 @@ export const Projects2 = () => {
         return <BigSpinner/>
     else 
         return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
-        <h1>Projects</h1> 
-            {context.projects.map(project => <Project key={project.id} project={project}/>)}
-        <Link to={"/projects/create"}>
-            <Button variant='success'>New Project</Button>
-        </Link>
-    </Container>
+            <h1>Projects</h1> 
+            <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"row", textAlign:"center"}}>
+                {context.projects.map(project => <Project key={project.id} project={project}/>)}
+            </Container>
+            <Link to={"/projects/create"}>
+                <Button variant='success'>New Project</Button>
+            </Link>
+        </Container>
+
 }

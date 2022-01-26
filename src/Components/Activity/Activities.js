@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
-import { Button, Container, Card, FormGroup, FormControl, Form, FormLabel, ButtonGroup } from "react-bootstrap"
+import { Button, Container, Card, FormGroup,  Modal,  FormControl, Form, FormLabel, ButtonGroup } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import useFetch from "use-http"
 import APIRoot from "../API"
@@ -20,8 +20,10 @@ export const Activities = () => {
         id: context.id
     }), [date])
 
+    console.log(context.newActivity)
     const fetchTodays = async (data) =>{
         await post("/day", data)
+        console.log("fetched")
         const todayActivities = response.data
         setContext({...context, todayActivities})
     }  
@@ -42,7 +44,7 @@ export const Activities = () => {
         return <div>
             <h1>Activities</h1> 
             <h2>{date.toDate().toLocaleDateString()}</h2>
-            
+            <NewActivtyPrompt/>
             <Button style={{margin : "0.5rem"}} onClick={() => changeDay(-1, date)}>Previous</Button>
             <Button style={{margin : "0.5rem"}} onClick={() => changeDay(1, date)}>Next</Button>
             <Button style={{margin : "0.5rem"}} onClick={() => setDate(moment())}>Today</Button>
@@ -51,7 +53,7 @@ export const Activities = () => {
 }
 
 const ActivityList = ({activities}) => {
-    return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
+    return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"row", textAlign:"center"}}>
         {activities.map(act => <Activity key={act.id} activity={act}/>)}
     </Container>
 }
@@ -63,19 +65,19 @@ const Activity = ({activity}) => {
         <Form style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
             <FormGroup>
                 <FormLabel >Name</FormLabel>
-                <FormControl value={name} disabled></FormControl>
+                <FormControl style={{textAlign:"center"}} value={name} disabled></FormControl>
             </FormGroup>
             <FormGroup>
                 <FormLabel >Description</FormLabel>
-                <FormControl as="textarea" value={description} disabled></FormControl>
+                <FormControl style={{textAlign:"center"}} as="textarea" value={description} disabled></FormControl>
             </FormGroup>
             <FormGroup>
                 <FormLabel >Time</FormLabel>
-                <FormControl value={durationMinutes} disabled></FormControl>
+                <FormControl style={{textAlign:"center"}} value={durationMinutes} disabled></FormControl>
             </FormGroup>
             <FormGroup>
                 <FormLabel >Category</FormLabel>
-                <FormControl value={tag} disabled></FormControl>
+                <FormControl style={{textAlign:"center"}} value={tag} disabled></FormControl>
             </FormGroup>
         </Form>
         <ButtonGroup style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"row", textAlign:"center"}}>
@@ -87,6 +89,25 @@ const Activity = ({activity}) => {
             <Button style={{margin:"0.5rem"}} variant="danger">Delete</Button>
             </Link>}
         </ButtonGroup>
-
     </Card>
+}
+
+export const NewActivtyPrompt = () => {
+    const {context, setContext} = useContext(Context)    
+    const [show, setShow] = useState(context != null && context.newActivity )
+
+    return <Modal show={show}>
+        <Modal.Header closeButton>
+            <Modal.Title>New Activity Created</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <p></p>
+        </Modal.Body>
+        <Modal.Footer>
+                <Button onClick={() => {
+                    setShow(false)
+                    setContext({...context, newActivity:false})
+                }}>Acknowledge</Button>
+        </Modal.Footer>
+    </Modal>
 }

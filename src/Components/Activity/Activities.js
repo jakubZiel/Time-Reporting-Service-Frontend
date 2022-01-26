@@ -53,16 +53,22 @@ export const Activities = () => {
 }
 
 const ActivityList = ({activities}) => {
-    return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"row", textAlign:"center"}}>
+    console.log(activities)
+    return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"row", flexWrap:"wrap", textAlign:"center"}}>
         {activities.map(act => <Activity key={act.id} activity={act}/>)}
     </Container>
 }
 
 const Activity = ({activity}) => {
     const {id, name, description, durationMinutes, frozen, tag} = activity
-
-    return <Card style={{width: "35rem", margin: "1rem", padding: "1rem"}}>
+    const {context} = useContext(Context)
+    const project = context.projects.find(project => project.id == activity.projectID).name
+    return <Card style={{width: "20rem", margin: "1rem", padding: "1rem"}}>
         <Form style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
+            <FormGroup>
+                <FormLabel >Project</FormLabel>
+                <FormControl style={{textAlign:"center"}} value={project} disabled></FormControl>
+            </FormGroup>
             <FormGroup>
                 <FormLabel >Name</FormLabel>
                 <FormControl style={{textAlign:"center"}} value={name} disabled></FormControl>

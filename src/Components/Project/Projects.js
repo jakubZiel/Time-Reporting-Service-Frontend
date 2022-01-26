@@ -85,7 +85,7 @@ export const Projects2 = () => {
     else 
         return <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"column", textAlign:"center"}}>
             <h1>Projects</h1> 
-            <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"row", textAlign:"center"}}>
+            <Container style={{display : "flex", alignItems : "center", justifyContent : "center", flexDirection:"row", flexWrap:"wrap", textAlign:"center"}}>
                 {context.projects.map(project => <Project key={project.id} project={project}/>)}
             </Container>
             <Link to={"/projects/create"}>
